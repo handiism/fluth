@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "296564222407",
+    "project_id": "auth-app-246ee",
+    "storage_bucket": "auth-app-246ee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:296564222407:android:285325e915fda4527ed1e2",
+        "android_client_info": {
+          "package_name": "com.example.fluth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "296564222407-gnn2rfcr0hatrj60m8fl19vvm24qkdfj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDI-28xPiyEnE9JfzAzXCLgtdQR0rQXG8Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "296564222407-gnn2rfcr0hatrj60m8fl19vvm24qkdfj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "296564222407-dfpri932i9b2566c0369gu8hsct6frnl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.fluth"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
