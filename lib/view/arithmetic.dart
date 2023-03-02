@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluth/view/datadiri.dart';
 import 'package:flutter/material.dart';
 
 import 'dart:async';
@@ -12,6 +14,7 @@ class Aritmatika extends StatefulWidget {
 class _AritmatikaState extends State<Aritmatika> {
   TextEditingController controller1 = TextEditingController();
   TextEditingController controller2 = TextEditingController();
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   int result = 0;
   String angka1 = "";
   String angka2 = "";
@@ -35,10 +38,53 @@ class _AritmatikaState extends State<Aritmatika> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar( 
+      appBar: AppBar(
         title: const Text('Penjumlahan dan Pengurangan'),
         backgroundColor: const Color.fromARGB(255, 255, 18, 18),
         centerTitle: true,
+        actions: [
+          PopupMenuButton<int>(
+            onSelected: (item) async {
+              if (item == 0) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const DataDiri(),
+                  ),
+                );
+              } else {
+                try {
+                  await _firebaseAuth.signOut().then(
+                    (value) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Berhasil Mengeluarkan Akun"),
+                        ),
+                      );
+                      Navigator.pop(context);
+                    },
+                  );
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Gagal Mengeluarkan Akun"),
+                    ),
+                  );
+                }
+              }
+            },
+            itemBuilder: (context) => [
+              const PopupMenuItem<int>(
+                value: 0,
+                child: Text('Data Diri'),
+              ),
+              const PopupMenuItem<int>(
+                value: 1,
+                child: Text("Keluar"),
+              ),
+            ],
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -162,7 +208,7 @@ class _AritmatikaState extends State<Aritmatika> {
                         style: TextStyle(fontSize: 15.0),
                       ),
                       Text(
-                        "$massage",
+                        massage,
                         style: const TextStyle(
                             color: Color.fromARGB(255, 250, 17, 0),
                             fontSize: 18.0),

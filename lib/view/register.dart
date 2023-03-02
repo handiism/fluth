@@ -79,6 +79,9 @@ class _RegisterState extends State<Register> {
               height: 10.0,
             ),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 255, 18, 18),
+              ),
               onPressed: () async {
                 try {
                   log(_emailController.text);
@@ -129,7 +132,8 @@ class _RegisterState extends State<Register> {
                     ),
                     TextSpan(
                       text: "Masuk",
-                      style: const TextStyle(color: Colors.blue),
+                      style: const TextStyle(
+                          color: Color.fromARGB(255, 255, 18, 18)),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           Navigator.push(
