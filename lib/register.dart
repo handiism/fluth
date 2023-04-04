@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluth/login.dart';
 import 'package:flutter/gestures.dart';
@@ -13,7 +12,7 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   @override
@@ -41,10 +40,10 @@ class _RegisterState extends State<Register> {
                 right: 15,
               ),
               child: TextField(
-                controller: _emailController,
-                keyboardType: TextInputType.emailAddress,
+                controller: _usernameController,
+                keyboardType: TextInputType.text,
                 decoration: const InputDecoration(
-                  hintText: "Email",
+                  hintText: "Username",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(
                       Radius.circular(10.0),
@@ -79,39 +78,7 @@ class _RegisterState extends State<Register> {
               height: 10.0,
             ),
             ElevatedButton(
-              onPressed: () async {
-                try {
-                  log(_emailController.text);
-                  log(_passwordController.text);
-                  await _firebaseAuth
-                      .createUserWithEmailAndPassword(
-                          email: _emailController.text.toString(),
-                          password: _passwordController.text.toString())
-                      .then(
-                    (value) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("Berhasil Mendaftarkan Akun"),
-                        ),
-                      );
-
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Login(),
-                        ),
-                      );
-                    },
-                  );
-                } catch (e) {
-                  log(e.toString());
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Gagal Mendaftarkan Akun"),
-                    ),
-                  );
-                }
-              },
+              onPressed: _onPressed,
               child: const Text("Daftar"),
             ),
             const Divider(
@@ -148,5 +115,60 @@ class _RegisterState extends State<Register> {
         ),
       ),
     );
+  }
+
+  _onPressed() async {
+    try {
+      RegExp regex = RegExp(r"^\d{9}$");
+
+      if (!regex.hasMatch(_usernameController.text)) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Gagal Mendaftarkan Akun"),
+          ),
+        );
+
+        return;
+      }
+
+      if (_passwordController.text.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Gagal Mendaftarkan Akun"),
+          ),
+        );
+
+        return;
+      }
+
+      final email = "${_usernameController.text}@gmail.com";
+      final password = "${_passwordController.text}password";
+
+      await _firebaseAuth
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then(
+        (value) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Berhasil Mendaftarkan Akun"),
+            ),
+          );
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const Login(),
+            ),
+          );
+        },
+      );
+    } catch (e) {
+      log(e.toString());
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Gagal Mendaftarkan Akun"),
+        ),
+      );
+    }
   }
 }

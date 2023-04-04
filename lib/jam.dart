@@ -9,19 +9,19 @@ class Jam extends StatefulWidget {
 }
 
 class _JamState extends State<Jam> {
-  var hours = DateTime.now();
+  var utc = DateTime.now().toUtc();
 
   @override
   void initState() {
     Timer.periodic(const Duration(seconds: 1), (Timer t) {
       setState(() {
-        hours = DateTime.now().toUtc();
+        utc = DateTime.now().toUtc();
       });
     });
 
     if (mounted) {
       setState(() {
-        hours = DateTime.now().toUtc();
+        utc = DateTime.now().toUtc();
       });
     }
     super.initState();
@@ -55,7 +55,7 @@ class _JamState extends State<Jam> {
   }
 
   _time(int number) {
-    var time = hours.add(Duration(hours: number));
+    var time = utc.add(Duration(hours: number));
 
     return Center(
       child: SingleChildScrollView(

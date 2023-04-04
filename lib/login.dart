@@ -13,7 +13,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   @override
@@ -41,10 +41,10 @@ class _LoginState extends State<Login> {
                 right: 15,
               ),
               child: TextField(
-                controller: _emailController,
-                keyboardType: TextInputType.emailAddress,
+                controller: _usernameController,
+                keyboardType: TextInputType.text,
                 decoration: const InputDecoration(
-                  hintText: "Email",
+                  hintText: "Username",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(
                       Radius.circular(10.0),
@@ -81,36 +81,7 @@ class _LoginState extends State<Login> {
               color: Colors.transparent,
             ),
             ElevatedButton(
-              onPressed: () async {
-                try {
-                  await _firebaseAuth
-                      .signInWithEmailAndPassword(
-                    email: _emailController.text,
-                    password: _passwordController.text,
-                  )
-                      .then((value) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text("Berhasil Memasukkan Akun"),
-                      ),
-                    );
-
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Navbar(),
-                      ),
-                    );
-                  });
-                } catch (e) {
-                  log(e.toString());
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Gagal Memasukkan Akun"),
-                    ),
-                  );
-                }
-              },
+              onPressed: _onPressed,
               child: const Text("Login"),
             ),
             const Divider(
@@ -148,5 +119,58 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
+  }
+
+  _onPressed() async {
+    try {
+      RegExp regex = RegExp(r"^\d{9}$");
+
+      if (!regex.hasMatch(_usernameController.text)) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Gagal Memasukkan Akun"),
+          ),
+        );
+
+        return;
+      }
+
+      if (_passwordController.text.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Gagal Memasukkan Akun"),
+          ),
+        );
+
+        return;
+      }
+
+      final email = "${_usernameController.text}@gmail.com";
+      final password = "${_passwordController.text}password";
+
+      await _firebaseAuth
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((value) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Berhasil Memasukkan Akun"),
+          ),
+        );
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Navbar(),
+          ),
+        );
+      });
+    } catch (e) {
+      log(e.toString());
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Gagal Memasukkan Akun"),
+        ),
+      );
+    }
   }
 }
