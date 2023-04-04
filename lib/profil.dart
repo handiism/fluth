@@ -55,6 +55,12 @@ class Profil extends StatelessWidget {
               style: TextStyle(
                 fontSize: 20,
               ),
+            ),
+            const Text(
+              "Cita-cita jadi orang kayaaa",
+              style: TextStyle(
+                fontSize: 20,
+              ),
             )
           ],
         ),
