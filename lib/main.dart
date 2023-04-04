@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fluth/firebase_options.dart';
-import 'package:fluth/view/register.dart';
+import 'package:fluth/register.dart';
 import 'package:flutter/material.dart';
 
 Future<void> main() async {

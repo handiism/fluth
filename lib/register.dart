@@ -1,19 +1,18 @@
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fluth/view/home.dart';
-import 'package:fluth/view/register.dart';
+import 'package:fluth/login.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+class Register extends StatefulWidget {
+  const Register({Key? key}) : super(key: key);
 
   @override
-  State<Login> createState() => _LoginState();
+  State<Register> createState() => _RegisterState();
 }
 
-class _LoginState extends State<Login> {
+class _RegisterState extends State<Register> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -25,7 +24,7 @@ class _LoginState extends State<Login> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-              'Masuk',
+              'Daftar',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 25,
@@ -55,8 +54,7 @@ class _LoginState extends State<Login> {
               ),
             ),
             const Divider(
-              height: 10,
-              color: Colors.transparent,
+              height: 10.0,
             ),
             Container(
               padding: const EdgeInsets.only(
@@ -79,64 +77,65 @@ class _LoginState extends State<Login> {
             ),
             const Divider(
               height: 10.0,
-              color: Colors.transparent,
             ),
             ElevatedButton(
               onPressed: () async {
                 try {
+                  log(_emailController.text);
+                  log(_passwordController.text);
                   await _firebaseAuth
-                      .signInWithEmailAndPassword(
-                    email: _emailController.text,
-                    password: _passwordController.text,
-                  )
-                      .then((value) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text("Berhasil Memasukkan Akun"),
-                      ),
-                    );
+                      .createUserWithEmailAndPassword(
+                          email: _emailController.text.toString(),
+                          password: _passwordController.text.toString())
+                      .then(
+                    (value) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Berhasil Mendaftarkan Akun"),
+                        ),
+                      );
 
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Home(),
-                      ),
-                    );
-                  });
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Login(),
+                        ),
+                      );
+                    },
+                  );
                 } catch (e) {
                   log(e.toString());
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text("Gagal Memasukkan Akun"),
+                      content: Text("Gagal Mendaftarkan Akun"),
                     ),
                   );
                 }
               },
-              child: const Text("Login"),
+              child: const Text("Daftar"),
             ),
             const Divider(
-              height: 10,
-              color: Colors.transparent,
+              height: 10.0,
             ),
             Center(
               child: RichText(
                 text: TextSpan(
                   children: [
                     const TextSpan(
-                      text: "Belum punya akun? ",
+                      text: "Sudah punya akun? ",
                       style: TextStyle(
                         color: Colors.black,
                       ),
                     ),
                     TextSpan(
-                      text: "Daftar",
+                      text: "Masuk",
                       style: const TextStyle(color: Colors.blue),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const Register(),
+                              builder: (context) => const Login(),
                             ),
                           );
                         },
@@ -144,7 +143,7 @@ class _LoginState extends State<Login> {
                   ],
                 ),
               ),
-            ),
+            )
           ],
         ),
       ),

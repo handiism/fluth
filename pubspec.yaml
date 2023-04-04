@@ -16,6 +16,7 @@ dependencies:
   firebase_auth: ^3.4.1
   json_annotation: ^4.6.0
   http: ^0.13.4
+  flutter_svg: ^2.0.4
 
 dev_dependencies:
   flutter_test:
@@ -26,3 +27,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/icons/cylinder.svg
+    - assets/icons/trapeziom.svg
+    - assets/icons/trapesium.jpg.webp
