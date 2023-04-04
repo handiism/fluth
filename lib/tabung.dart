@@ -55,26 +55,7 @@ class _TabungState extends State<Tabung> {
             ),
           ),
           ElevatedButton(
-            onPressed: () {
-              if (jari.text.isEmpty || jari.text.isEmpty) {
-                setState(() {
-                  _message = "Pastikan setiap input terisi dengan benar";
-                });
-              }
-
-              final double r = double.parse(jari.text.toString());
-              final double t = double.parse(tinggi.text.toString());
-
-              final phi = r % 10 == 0 ? 3.14 : 22 / 7;
-
-              final luas = 2 * phi * r * (t + r);
-              final volume = phi * r * r * t;
-
-              setState(() {
-                _message =
-                    "Luas: ${luas.toStringAsFixed(1)}; Volume: ${volume.toStringAsFixed(1)}";
-              });
-            },
+            onPressed: _hitung,
             child: const Text("Hitung"),
           ),
           Text(
@@ -86,5 +67,26 @@ class _TabungState extends State<Tabung> {
         ],
       ),
     );
+  }
+
+  _hitung() {
+    if (jari.text.isEmpty || jari.text.isEmpty) {
+      setState(() {
+        _message = "Pastikan setiap input terisi dengan benar";
+      });
+    }
+
+    final double r = double.parse(jari.text.toString());
+    final double t = double.parse(tinggi.text.toString());
+
+    final phi = r % 10 == 0 ? 3.14 : 22 / 7;
+
+    final luas = 2 * phi * r * (t + r);
+    final volume = phi * r * r * t;
+
+    setState(() {
+      _message =
+          "Luas: ${luas.toStringAsFixed(1)}; Volume: ${volume.toStringAsFixed(1)}";
+    });
   }
 }
